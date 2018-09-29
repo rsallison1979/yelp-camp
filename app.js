@@ -4,41 +4,14 @@ var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var Campground = require("./models/campground");
+var seedDB = require("./seeds");
+
+seedDB();
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("libs"));
-
-
-
-// Campground.create(
-// {
-//     name: "Granite Hill",
-//     image: "https://cdn.pixabay.com/photo/2017/10/07/01/01/bach-leek-2825197__340.jpg",
-//     description: "Really nice campground, nice views"
-// }, function(err, campground){
-//     if(err){
-//         console.log(err);
-//     } else {
-//         console.log("new campground created");
-//         console.log(campground);
-//     }
-// });
-
-
-// var campgrounds = [
-//     {name: 'Salmon Creek', image: "https://cdn.pixabay.com/photo/2017/09/26/13/50/rv-2788677__340.jpg"},
-//     {name: 'Granite Hill', image: "https://cdn.pixabay.com/photo/2017/10/07/01/01/bach-leek-2825197__340.jpg"},
-//     {name: "Mountain Goat's Rest", image: "https://cdn.pixabay.com/photo/2018/05/16/15/49/camper-3406137__340.jpg"},
-//     {name: 'Salmon Creek', image: "https://cdn.pixabay.com/photo/2017/09/26/13/50/rv-2788677__340.jpg"},
-//     {name: 'Granite Hill', image: "https://cdn.pixabay.com/photo/2017/10/07/01/01/bach-leek-2825197__340.jpg"},
-//     {name: "Mountain Goat's Rest", image: "https://cdn.pixabay.com/photo/2018/05/16/15/49/camper-3406137__340.jpg"},
-//     {name: 'Salmon Creek', image: "https://cdn.pixabay.com/photo/2017/09/26/13/50/rv-2788677__340.jpg"},
-//     {name: 'Granite Hill', image: "https://cdn.pixabay.com/photo/2017/10/07/01/01/bach-leek-2825197__340.jpg"},
-//     {name: "Mountain Goat's Rest", image: "https://cdn.pixabay.com/photo/2018/05/16/15/49/camper-3406137__340.jpg"}
-// ];
-
-
+// ROUTES //
 app.get("/", function(req, res){
     res.render("landing");
 });

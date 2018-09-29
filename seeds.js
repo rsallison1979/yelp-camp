@@ -22,6 +22,11 @@ var data = [
 
 function seedDB(){
     // REMOVE ALL CAMPGROUNDS //
+    Comment.deleteMany({}, function(err){
+        if(err){
+            console.log(err);
+        }
+    });
     Campground.deleteMany({}, function(err){
         if(err){
             console.log(err);

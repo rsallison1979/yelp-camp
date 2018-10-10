@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
+var mongoose = require("mongoose");
+mongoose.set("useFindAndModify", false);
 
 router.get("/new", isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, campground){

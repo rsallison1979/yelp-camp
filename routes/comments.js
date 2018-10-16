@@ -9,7 +9,7 @@ mongoose.set("useFindAndModify", false);
 router.get("/new", middleware.isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, campground){
         if(err){
-            console.log(err);
+            req.flash("error", "Something went wrong");
         } else {
             res.render("comments/new", {campground: campground});
         }
@@ -19,18 +19,19 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 router.post("/", middleware.isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, campground){
         if(err){
-            console.log(err);
+            req.flash("error", "Something went wrong");
             res.redirect("/campgrounds");
         } else {
             Comment.create(req.body.comment, function(err, comment){
                 if(err){
-                    console.log(err);
+                    req.flash("error", "Something went wrong");
                 } else {
                     comment.author.id = req.user._id;
                     comment.author.username = req.user.username;
                     comment.save();
                     campground.comments.push(comment);
                     campground.save();
+                    req.flash("success", "Successfully added comment");
                     res.redirect("/campgrounds/" + campground._id);
                 }
             });
@@ -63,6 +64,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, re
         if(err){
             res.redirect("back");
         } else {
+            req.flash("success", "Comment Deleted");
             res.redirect("/campgrounds/" + req.params.id);
         }
     });

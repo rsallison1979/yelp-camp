@@ -9,7 +9,7 @@ router.get("/", function(req, res){
     // GET ALL CAMPGROUNDS FROM DB //
     Campground.find({}, function(err, campgrounds){
         if(err){
-            console.log(err);
+            req.flash("error", "Something went wrong");
         }else {
             res.render("campgrounds/index", {campgrounds: campgrounds});
         }
@@ -20,18 +20,19 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     // THE CODE BELOW IS WHAT GETS THE DATA FROM THE FORM ON NEW.EJS //
     // VAR NAME AND IMAGE MATCH THE NAMES FROM THE INPUT FORM ON NEW.EJS //
     var name = req.body.name;
+    var price = req.body.price;
     var image = req.body.image;
     var desc = req.body.description;
     var author = {
         id: req.user._id,
         username: req.user.username
     };
-    var newCampground = {name: name, image: image, description: desc, author:author};
+    var newCampground = {name: name, price: price, image: image, description: desc, author:author};
     // campgrounds.push(newCampground);
     // CREATE A NEW CAMPGROUND AND SAVE TO DB //
     Campground.create(newCampground, function(err){
         if(err){
-            console.log(err);
+            req.flash("error", "Something went wrong");
         } else{
             res.redirect("/campgrounds");
         }
@@ -45,8 +46,9 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 router.get("/:id", function(req, res){
     // FIND CAMPGROUND WITH THE PROVIDED ID //
     Campground.findOne({_id:req.params.id}).populate("comments").exec(function(err, foundCampground){
-        if(err){
-            console.log(err);
+        if(err || !foundCampground){
+            req.flash("error", "Something went wrong");   
+            res.redirect("back");
         } else{
             res.render("campgrounds/show", {campground: foundCampground});
         }
@@ -57,10 +59,9 @@ router.get("/:id", function(req, res){
 router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res){
     Campground.findById(req.params.id, function(err, foundCampground){
         if(err){
-            console.log(err);
+            req.flash("error", "Something went wrong");
         } else{
             res.render("campgrounds/edit", {campground: foundCampground});
-            console.log(foundCampground);
         }
     });  
 });

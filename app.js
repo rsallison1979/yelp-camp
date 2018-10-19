@@ -46,9 +46,15 @@ app.use("/campgrounds",campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
 // SERVER AND DB CONNECTION //
-app.listen(3000, function(){
-    console.log("YelpCamp server has started");
-});
+// app.listen(3000, function(){
+//     console.log("YelpCamp server has started"); 
+// });
+
+let port = process.env.PORT;
+if (port == null || port == "") {
+    port = 8000;
+}
+app.listen(port);
 
 var db = mongoose.connection;
 mongoose.connect("mongodb://" + process.env.DB_USER + ":" + process.env.DB_PASS + process.env.DB_HOST, { useNewUrlParser: true });

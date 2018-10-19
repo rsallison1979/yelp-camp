@@ -4,7 +4,8 @@
   "description": "Yelp for Campgrounds",
   "main": "app.js",
   "scripts": {
-    "test": "\u001b[A\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[Capp.js"
+    "test": "\u001b[A\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[Capp.js",
+    "start": "node app.js"
   },
   "author": "Robert Allison",
   "license": "ISC",
